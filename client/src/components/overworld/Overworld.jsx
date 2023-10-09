@@ -1,8 +1,9 @@
 import React from 'react';
 
-import downImg from "../../assets/graphic/maps/down.png"
-import playerImg from "../../assets/graphic/characters/player.png"
-import shadowImg from "../../assets/graphic/characters/shadow.png"
+import OverworldMap from './map/OverworldMap';
+import DirectionInputs from '../player_inputs/DirectionInputs';
+
+import { FPS_RATIO } from '../constants';
 
 export default class Overworld extends React.Component {
     constructor(config) {
@@ -14,51 +15,60 @@ export default class Overworld extends React.Component {
         this.map = null;
     }
 
-    startGameLoop() {
+    gameLoopStepWork(delta) {
+        // clear
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        // establish camera person (or anything)
+        const cameraPerson = this.map.gameObjects.player;
+
+        // update all objects
+        Object.values(this.map.gameObjects).forEach(obj => {
+            obj.update({
+                delta,
+                arrow: this.directionInput.direction,
+            })
+        })
+
+        // draw layer and objects
+        this.map.drawLowerImage(this.ctx, cameraPerson);
+        Object.values(this.map.gameObjects).forEach(obj => {
+            obj.sprite.draw(this.ctx, cameraPerson);
+        });
+        this.map.drawUpperImage(this.ctx, cameraPerson);
+    }
+
+    startGameLoop() {
+        let previousMs;
+        const step = FPS_RATIO;
+
+        const stepFct = (timestampMs) => {
+            if (this.map.isPaused) {
+                return;
+            }
+            if (previousMs === undefined) {
+                previousMs = timestampMs;
+            }
+            let delta = (timestampMs - previousMs) / 1000;
+            while (delta >= step) {
+                this.gameLoopStepWork(delta);
+                delta -= step;
+            }
+            previousMs = timestampMs - delta * 1000;
+
+            requestAnimationFrame(stepFct)
+        }
+        requestAnimationFrame(stepFct)
     }
 
     async init() {
         console.log("Overworld initialisation...");
 
-        const img = new Image();
-        img.src = downImg;
-        img.onload = () => {
-            this.ctx.drawImage(img, 0, 0)
-        }
+        this.map = new OverworldMap(window.OverworldMaps.Demo);
 
-        const x = 5;
-        const y = 7;
+        this.directionInput = new DirectionInputs();
+        this.directionInput.init();
 
-        const shadow = new Image();
-        shadow.src = shadowImg;
-        shadow.onload = () => {
-            this.ctx.drawImage(
-                shadow,
-                0, // left cut
-                0, // top cut
-                32, // width of cut
-                64, // height of cut
-                x * 32,
-                y * 32 - 16,
-                32,
-                64,)
-        }
-
-        const player = new Image();
-        player.src = playerImg;
-        player.onload = () => {
-            this.ctx.drawImage(
-                player, // src
-                0, // left cut
-                0, // top cut
-                64, // width of cut
-                64, // height of cut
-                x * 32 - 16,
-                y * 32 - 32,
-                64,
-                64,
-            )
-        }
+        this.startGameLoop();
     }
 }
