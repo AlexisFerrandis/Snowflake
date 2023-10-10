@@ -1,11 +1,15 @@
 import React from 'react';
 
 import Sprite from "./Sprite";
-import playerImg from "../../assets/graphic/characters/player.png";
+import playerImg from "../../assets/graphic/characters/playerSprite.png";
 
 export default class GameObject extends React.Component {
     constructor(config) {
         super(config);
+
+        this.id = null;
+
+        this.isMaounted = false;
 
         this.x = config.x || 0;
         this.y = config.y || 0;
@@ -28,5 +32,10 @@ export default class GameObject extends React.Component {
 
         this.initialX = config.initialX || 0;
         this.initialY = config.initialY || 0;
+    }
+
+    mount(map) {
+        this.isMaounted = true;
+        map.addWall(this.x, this.y);
     }
 }

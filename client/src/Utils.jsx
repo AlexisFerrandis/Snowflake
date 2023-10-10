@@ -2,12 +2,12 @@ export const withGrid = (n) => {
     return n * 32;
 };
 
-export const setGridCoords = (x, y) => {
+export const asGridCoords = (x, y) => {
     return `${x * 32}, ${y * 32}`
 };
 
-export const asGridCoords = (x, y) => {
-    return `${x * 32},${y * 32}`
+export const setGridCoords = (x, y) => {
+    return `${x * 32}, ${y * 32}`
 };
 
 export const nextPosition = (initialX, initialY, direction) => {
@@ -25,3 +25,4 @@ export const nextPosition = (initialX, initialY, direction) => {
     }
     return { x, y };
 };
+

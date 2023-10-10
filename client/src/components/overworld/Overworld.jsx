@@ -27,6 +27,7 @@ export default class Overworld extends React.Component {
             obj.update({
                 delta,
                 arrow: this.directionInput.direction,
+                map: this.map,
             })
         })
 
@@ -65,6 +66,7 @@ export default class Overworld extends React.Component {
         console.log("Overworld initialisation...");
 
         this.map = new OverworldMap(window.OverworldMaps.Demo);
+        this.map.mountObjects();
 
         this.directionInput = new DirectionInputs();
         this.directionInput.init();

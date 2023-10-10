@@ -28,15 +28,15 @@ export default class Sprite extends React.Component {
 
         // configure animation
         this.animation = config.animation || {
-            "idle-down": [[0, 0]],
-            "idle-up": [[0, 3]],
-            "idle-left": [[0, 1]],
-            "idle-right": [[0, 2]],
+            "idle-down": [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [2, 0], [2, 0], [2, 0], [2, 0], [2, 0], [2, 0], [2, 0]],
+            "idle-up": [[0, 3], [0, 3], [0, 3], [0, 3], [0, 3], [0, 3], [0, 3], [0, 3], [0, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3]],
+            "idle-left": [[0, 1], [0, 1], [0, 1], [0, 1], [0, 1], [0, 1], [0, 1], [0, 1], [0, 1], [2, 1], [2, 1], [2, 1], [2, 1], [2, 1], [2, 1], [2, 1]],
+            "idle-right": [[0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [2, 2], [2, 2], [2, 2], [2, 2], [2, 2], [2, 2]],
 
-            "walk-down": [[1, 0], [0, 0], [3, 0], [0, 0]],
-            "walk-up": [[1, 3], [0, 3], [3, 3], [0, 3]],
-            "walk-left": [[1, 1], [1, 1], [3, 1], [0, 1]],
-            "walk-right": [[1, 2], [0, 2], [3, 2], [3, 2]],
+            "walk-down": [[1, 0], [2, 0], [3, 0], [0, 0]],
+            "walk-up": [[1, 3], [2, 3], [3, 3], [0, 3]],
+            "walk-left": [[1, 1], [2, 1], [3, 1], [0, 1]],
+            "walk-right": [[1, 2], [2, 2], [3, 2], [0, 2]],
         };
         this.currentAnimation = config.currentAnimation || "idle-down";
         this.currentAnimationFrame = 0;
@@ -61,13 +61,11 @@ export default class Sprite extends React.Component {
     }
 
     updateAnimationProgress() {
-        // downtick time 
         if (this.animationFrameProgress > 0) {
             this.animationFrameProgress -= 1;
             return;
         }
 
-        // reset counter
         this.animationFrameProgress = this.animationFrameLimit;
         this.currentAnimationFrame += 1;
 
@@ -86,14 +84,14 @@ export default class Sprite extends React.Component {
 
         this.isLoaded && ctx.drawImage(
             this.image,
-            frameX * 64, // left cut
-            frameY * 64, // right cut
-            64, // width of cut
-            64, // height of cut
+            frameX * 64,
+            frameY * 64,
+            64,
+            64,
             x,
             y,
-            64, // width of sprite
-            64 // height of sprite
+            64,
+            64
         )
         this.updateAnimationProgress();
     }

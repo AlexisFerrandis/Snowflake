@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { withGrid } from '../../../Utils';
+import { withGrid, asGridCoords, nextPosition } from '../../../Utils';
 
 // import { Demo } from "./maps/demo/Demo"
-// import GameObject from '../../objects/GameObject';
 
 import lowerImg from "../../../assets/graphic/maps/demo/down.png";
 import upperImg from "../../../assets/graphic/maps/demo/up.png";
 
-import npcImg from "../../../assets/graphic/characters/npc_01.png";
+import npcImg from "../../../assets/graphic/characters/npc_test.png";
 import Person from '../../objects/Person';
 
 export default class OverworldMap extends React.Component {
@@ -50,6 +49,29 @@ export default class OverworldMap extends React.Component {
             withGrid(9) - cameraPerson.y,
         );
     }
+
+    isSpaceTaken(currentX, currentY, direction) {
+        const { x, y } = nextPosition(currentX, currentY, direction);
+        return this.walls[`${x}, ${y}`] || false;
+    }
+
+    mountObjects() {
+        Object.values(this.gameObjects).forEach(o => {
+            o.mount(this);
+        })
+    }
+
+    addWall(x, y) {
+        this.walls[`${x}, ${y}`] = true;
+    }
+    removeWall(x, y) {
+        delete this.walls[`${x}, ${y}`];
+    }
+    moveWall(wasX, wasY, direction) {
+        this.removeWall(wasX, wasY);
+        const { x, y } = nextPosition(wasX, wasY, direction);
+        this.addWall(x, y);
+    }
 }
 
 
@@ -71,5 +93,11 @@ window.OverworldMaps = {
                 src: npcImg,
             }),
         },
+        walls: {
+            [asGridCoords(2, 1)]: true,
+            [asGridCoords(3, 3)]: true,
+            [asGridCoords(4, 4)]: true,
+            [asGridCoords(5, 5)]: true,
+        }
     }
 } 
