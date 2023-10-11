@@ -1,5 +1,6 @@
 import GameObject from './GameObject';
 import { MOVING_PROCESS } from '../constants';
+import { emitEvent } from '../../Utils';
 
 export default class Person extends GameObject {
     constructor(config) {
@@ -25,7 +26,7 @@ export default class Person extends GameObject {
         } else {
 
             // case : keyboard ready & arrow pressed
-            if (this.isPlayerControlled && state.arrow) {
+            if (!state.map.isCutscenePlaying && this.isPlayerControlled && state.arrow) {
                 this.startBehavior(state, {
                     type: "walk",
                     direction: state.arrow
@@ -41,11 +42,25 @@ export default class Person extends GameObject {
         if (behavior.type === "walk") {
             // stop
             if (state.map.isSpaceTaken(this.x, this.y, this.direction)) {
+                behavior.retry && setTimeout(() => {
+                    this.startBehavior(state, behavior)
+                }, 10)
                 return;
             }
             // go
             state.map.moveWall(this.x, this.y, this.direction);
             this.movingProgressRemaining = MOVING_PROCESS;
+            this.updateSprite(state)
+        }
+        // stand
+        if (behavior.type === "stand") {
+            this.isStanding = true;
+            setTimeout(() => {
+                emitEvent("PersonStandComplete", {
+                    whoId: this.id
+                })
+                this.isStanding = false;
+            }, behavior.time)
         }
     }
 
@@ -53,6 +68,13 @@ export default class Person extends GameObject {
         const [property, change] = this.directionUpdate[this.direction];
         this[property] += change;
         this.movingProgressRemaining -= 1;
+
+        if (this.movingProgressRemaining === 0) {
+            this.intentPosition = null;
+            emitEvent("PersonWalkingComplete", {
+                whoId: this.id
+            });
+        }
     }
 
     updateSprite() {

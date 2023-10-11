@@ -1,0 +1,47 @@
+.text-message {
+	position: absolute;
+	width: 90%;
+	left: 50%;
+	transform: translate(-50%);
+	bottom: 12px;
+	height: 96px;
+	z-index: 2;
+    font-size: 14px;
+    .text-message-p {
+        text-shadow: 1px 1px 1px rgba(175, 175, 175, 0.5);
+        line-height: 22px;
+        padding-right: 8px;
+    }
+    .text-message-p span {
+        opacity: 0;
+    }
+    .text-message-p .revealed {
+        opacity: 1;
+    }
+    .text-message-who {
+        position: absolute;
+        top: -48px;
+        left: 0;
+    }
+    .text-message-btn {
+        position: absolute;
+        right: 8px;
+        top: 0;
+        color: var(--btn-red);
+        background: none;
+        font-size: 24px;
+        text-shadow: 1px 1px 1px rgb(119, 119, 119);
+        transform: scaleY(0.8) scaleX(1.2);
+        cursor: pointer;
+    }
+}
+
+.text-container {
+    background-color: white;
+    outline: 2px solid var(--color-02);
+    border: 2px solid var(--color-03);
+    color: var(--text-primary);
+    padding: 8px 16px;
+    border-radius: 10px;
+    user-select: none;
+}

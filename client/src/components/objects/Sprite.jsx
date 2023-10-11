@@ -3,7 +3,7 @@ import React from 'react';
 import shadowImg from "../../assets/graphic/characters/shadow.png";
 
 import { withGrid } from '../../Utils';
-import { ANIMATION_FRAME_LIMIT } from '../constants';
+import { ANIMATION_FRAME_LIMIT, CAM_POS_X, CAM_POS_Y } from '../constants';
 
 export default class Sprite extends React.Component {
     constructor(config) {
@@ -75,8 +75,8 @@ export default class Sprite extends React.Component {
     }
 
     draw(ctx, cameraPerson) {
-        const x = this.gameObject.x - 16 + withGrid(16) - cameraPerson.x;
-        const y = this.gameObject.y - 32 + withGrid(9) - cameraPerson.y;
+        const x = this.gameObject.x - 16 + withGrid(CAM_POS_X) - cameraPerson.x;
+        const y = this.gameObject.y - 32 + withGrid(CAM_POS_Y) - cameraPerson.y;
 
         this.isShadowLoaded && ctx.drawImage(this.shadow, (x + 15), (y + 16));
 

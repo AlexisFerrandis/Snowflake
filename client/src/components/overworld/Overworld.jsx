@@ -4,6 +4,7 @@ import OverworldMap from './map/OverworldMap';
 import DirectionInputs from '../player_inputs/DirectionInputs';
 
 import { FPS_RATIO } from '../constants';
+import KeyPressListener from '../player_inputs/KeyPressListener';
 
 export default class Overworld extends React.Component {
     constructor(config) {
@@ -33,7 +34,9 @@ export default class Overworld extends React.Component {
 
         // draw layer and objects
         this.map.drawLowerImage(this.ctx, cameraPerson);
-        Object.values(this.map.gameObjects).forEach(obj => {
+        Object.values(this.map.gameObjects).sort((a, b) => {
+            return a.y - b.y;
+        }).forEach(obj => {
             obj.sprite.draw(this.ctx, cameraPerson);
         });
         this.map.drawUpperImage(this.ctx, cameraPerson);
@@ -57,20 +60,46 @@ export default class Overworld extends React.Component {
             }
             previousMs = timestampMs - delta * 1000;
 
-            requestAnimationFrame(stepFct)
+            requestAnimationFrame(stepFct);
         }
-        requestAnimationFrame(stepFct)
+        requestAnimationFrame(stepFct);
+    }
+
+    bindActionInput() {
+        new KeyPressListener("Enter", () => { this.map.checkForActionCutscene() });
+        new KeyPressListener("Space", () => { this.map.checkForActionCutscene() });
+    }
+
+    bindPlayerPositionCheck() {
+        document.addEventListener("PersonWalkingComplete", e => {
+            if (e.detail.whoId === "player") {
+                this.map.checkForFootstepCutscene();
+            }
+        })
+    }
+
+    startMap(mapConfig) {
+        this.map = new OverworldMap(mapConfig);
+        this.map.overworld = this;
+        this.map.mountObjects();
     }
 
     async init() {
         console.log("Overworld initialisation...");
 
-        this.map = new OverworldMap(window.OverworldMaps.Demo);
-        this.map.mountObjects();
+        this.startMap(window.OverworldMaps.Demo);
+
+        // create controls
+        this.bindActionInput();
+        this.bindPlayerPositionCheck();
 
         this.directionInput = new DirectionInputs();
         this.directionInput.init();
 
         this.startGameLoop();
+
+        // this.map.startCutScene([
+        //     { type: "changeMap", map: "Demo" },
+        // ])
     }
 }

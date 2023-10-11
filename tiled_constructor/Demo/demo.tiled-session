@@ -1,0 +1,46 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "d5xdb0y-7cca5199-9b43-4b0e-9b2f-f4f6787e09eb.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "d9leui9-2433ac69-5fa3-4926-9e19-a8a65212f1ac.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "dbf3bkq-18e56198-ae2c-4f00-a8e7-3449d115e7d8.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tuileone.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "C:/Users/alexi/Documents/Babajko/Web/Snowflake/tiled_constructor",
+    "map.height": 30,
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+    ],
+    "project": "demo.tiled-project",
+    "recentFiles": [
+        "d9leui9-2433ac69-5fa3-4926-9e19-a8a65212f1ac.tsx",
+        "d5xdb0y-7cca5199-9b43-4b0e-9b2f-f4f6787e09eb.tsx",
+        "dbf3bkq-18e56198-ae2c-4f00-a8e7-3449d115e7d8.tsx",
+        "tuileone.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    },
+    "tileset.transparentColor": "#000000",
+    "tileset.useTransparentColor": true
+}
