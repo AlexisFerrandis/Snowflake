@@ -1,0 +1,34 @@
+.battle {
+    position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	image-rendering: pixelated;
+	overflow: hidden;
+    img {
+        pointer-events: none;
+    }
+    .battle-background {
+		img {
+			width: 100%;
+			height: 100%;
+            object-fit: contain;
+		}
+	}
+    .battle-player,
+	.battle-enemy {
+		position: absolute;
+		width: 240px;
+		height: 240px;
+        background-color: red;
+	}
+    .battle-player {
+		left: 0;
+		bottom: 120px;
+    }
+    .battle-enemy {
+		right: 0;
+		bottom: 120px;
+    }
+}

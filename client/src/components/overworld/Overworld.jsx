@@ -98,8 +98,9 @@ export default class Overworld extends React.Component {
 
         this.startGameLoop();
 
-        // this.map.startCutScene([
-        //     { type: "changeMap", map: "Demo" },
-        // ])
+        this.map.startCutScene([
+            { type: "battle" }
+            // { type: "changeMap", map: "Demo" },
+        ])
     }
 }

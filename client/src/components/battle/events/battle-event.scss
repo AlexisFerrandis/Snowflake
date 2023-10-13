@@ -1,0 +1,8 @@
+.battle-damage-blink {
+	animation: battle-dmg-blink 0.2s steps(2, start) infinite;
+}
+@keyframes battle-dmg-blink {
+	to {
+		visibility: hidden;
+	}
+}

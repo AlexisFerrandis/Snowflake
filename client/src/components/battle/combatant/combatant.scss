@@ -1,0 +1,272 @@
+// status
+$par: rgb(255, 255, 0);
+$psn: rgb(88, 42, 121);
+$gel: rgb(0, 255, 255);
+$cfs: rgb(255, 160, 17);
+
+.combatant {
+	position: absolute;
+	width: 116px;
+	padding: 5px 3px 3px;
+	background-color: #f4f7e1;
+	border: 2px solid #2a3214;
+	border-radius: 3px;
+	text-shadow: 1px 1px 1px rgba(49, 49, 49, 0.3);
+	transition: opacity 0.4s;
+	transform: scale(1.4);
+}
+.battle .combatant[data-active="false"] {
+	opacity: 0;
+}
+.battle .combatant[data-active="true"] {
+	opacity: 1;
+}
+
+.battle .combatant .combatant_icon {
+	display: none;
+}
+
+.battle {
+	.combatant[data-team="player"] {
+		top: 170px;
+		left: 15%;
+		z-index: 2;
+		-webkit-box-shadow: 12px 13px 5px -8px #00000098;
+		box-shadow: 12px 13px 5px -8px #0000007a;
+	}
+}
+.combatant[data-team="enemy"] {
+	top: 25px;
+	right: 30%;
+	height: 33px;
+}
+
+/* .combatant_character_crop {
+	position: absolute;
+	bottom: 1px;
+	left: 3px;
+	width: 22px;
+	height: 12px;
+	overflow: hidden;
+} */
+.combatant_character {
+	display: block;
+	position: absolute;
+	left: -11px;
+	bottom: -7px;
+}
+.battle .combatant_character_crop {
+	display: none;
+}
+
+.combatant_name {
+	white-space: nowrap;
+	color: rgb(44, 44, 44);
+	font-size: 7px;
+	padding-left: 1px;
+	padding-right: 2px;
+	margin-bottom: 2px;
+}
+.combatant_type {
+	position: absolute;
+	left: 3px;
+	top: -2px;
+	width: 16px;
+	height: 16px;
+}
+.life {
+	width: 91px;
+	height: 7px;
+	padding: 1px;
+	margin-left: 16px;
+	margin-top: 5px;
+	border-radius: 7px;
+	background-color: #4d5f45;
+}
+.life-container {
+	float: right;
+	display: flex;
+	width: 78px;
+	background-color: #4d5f45;
+	margin-bottom: 7px;
+	border: 1px solid white;
+	border-radius: 7px;
+}
+.life-container .php {
+	position: absolute;
+	left: 22px;
+	top: 19px;
+	font-size: 4px;
+	font-weight: 800;
+	color: #cdb858;
+}
+.combatant_life-container {
+	height: 3px;
+	border-top: 1px solid #59cf83;
+	background-color: #83f8b6;
+	transition: width 0.3s;
+}
+.combatant_life-container.half-life {
+	border-top: 1px solid #baad51;
+	background-color: #efde55;
+}
+.combatant_life-container.no-life {
+	border-top: 1px solid #a84048;
+	background-color: #f85838;
+}
+.hp-number {
+	position: absolute;
+	bottom: 1px;
+	right: 4px;
+	font-size: 5px;
+	font-weight: 500;
+	color: rgb(44, 44, 44);
+}
+.xp-container {
+	display: flex;
+	position: absolute;
+	right: 0;
+	bottom: -7px;
+	background-color: #b7d0c4;
+	border: 2px solid #2a3214;
+	border-left: 12px solid #2a3214;
+}
+.xp-container p {
+	position: absolute;
+	left: -10px;
+	font-size: 3px;
+	color: #d3dc54;
+}
+.xpx {
+	width: 80px;
+	background-color: #b7d0c4;
+}
+.combatant_xp-container {
+	width: 26px;
+	height: 2px;
+	background-color: rgb(45, 176, 194);
+}
+.combatant_level {
+	position: absolute;
+	font-size: 6px;
+	right: 6px;
+	top: 3px;
+	width: 17px;
+	height: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	color: rgb(44, 44, 44);
+}
+
+.combatant_status {
+	position: absolute;
+	font-size: 4px;
+	left: 2px;
+	top: 16px;
+	padding: 1px 2px;
+	border-radius: 3px;
+	background: rgba(0, 0, 0, 0.8);
+	color: white;
+	text-transform: uppercase;
+	margin: 0;
+}
+.combatant_status[data-status="par"] {
+	background: $par;
+}
+.combatant_status[data-status="gel"] {
+	background: $gel;
+}
+.combatant_status[data-status="cfs"] {
+	background: $cfs;
+}
+.combatant_status[data-status="psn"] {
+	background: $psn;
+}
+
+.companion-container[data-team="enemy"] {
+	position: absolute;	
+	top: 30px;
+	right: 0;
+	width: 37%;
+	height: 100%;
+	animation: companion-enemy-appears 3.5s forwards cubic-bezier(0.165, 0.84, 0.44, 1);
+	z-index: 1;
+}
+.companion-container[data-team="player"] {
+	position: absolute;	
+	top: 32px;
+	left: 10px;
+	width: 37%;
+	height: 100%;
+	animation: companion-appears 0.4s forwards cubic-bezier(0.165, 0.84, 0.44, 1) 2.3s;
+	opacity: 0;
+	transform-origin: bottom;
+}
+.companion {
+	position: absolute;
+    width: 256px;
+    height: 256px;
+    object-fit: contain; 
+    image-rendering: pixelated;
+}
+.companion[data-team="player"] {
+    top: 220px;
+    left: 90px;
+}
+.companion[data-team="enemy"] {
+	image-rendering: pixelated;
+    top: 0;
+    right: 0;
+}
+
+// switching companion animation
+.companion[data-active="false"] {
+	opacity: 0;
+}
+.companion[data-active="true"] {
+	opacity: 1;
+}
+
+.support[data-team="enemy"] {
+	position: absolute;
+	width: 180px;
+	top: 40px;
+	left: 40px;
+	animation: support-animation 3.5s forwards cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.support[data-team="player"] {
+	display: none;
+}
+
+@keyframes companion-appears {
+	0%{
+		transform: scale(0);
+		opacity: 0;
+	}
+	100%{
+		transform: scale(0.7);
+		opacity: 1;
+	}
+}
+@keyframes support-animation {
+	0%{
+		opacity: 0;
+		transform: translateX(-333px);
+	}
+	100%{
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+@keyframes companion-enemy-appears {
+	0%{
+		opacity: 0;
+		transform: translateX(-300px);
+	}
+	100%{
+		opacity: 1;
+		transform: translateX(0);
+	}
+}

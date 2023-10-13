@@ -1,0 +1,25 @@
+.TACKLE {
+	&::after {
+		position: absolute;
+		content: "";
+		width: 150px;
+		height: 150px;
+		background-image: url(../../../assets/graphic/battle/animations/tackle.png);
+		background-repeat: no-repeat;
+		animation-name: tackle;
+		animation-duration: 0.4s;
+		transform: translateY(30px);
+		opacity: 0;
+	}
+}
+@keyframes tackle {
+	0% {
+		opacity: 0.8;
+	}
+	99% {
+		opacity: 0.9;
+	}
+	100% {
+		opacity: 0;
+	}
+}

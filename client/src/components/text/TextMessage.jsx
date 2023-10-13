@@ -23,9 +23,13 @@ export default class TextMessage extends React.Component {
 
         this.element.innerHTML = (`
             <div class="text-message-border">
+                ${this.who ?
+                `
                 <div class="text-message-who text-container">
                     <p class="who ${this.who}">${this.who}</p>
                 </div>
+                `
+                : ``}
                 <p class="text-message-p"></p>
                 <button class="text-message-btn">&#11206;</button>
             </div>

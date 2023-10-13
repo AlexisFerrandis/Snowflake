@@ -1,7 +1,12 @@
 import React from 'react';
-import TextMessage from '../../text/TextMessage';
+
 import { oppositeDirection } from '../../../Utils';
+
+import TextMessage from '../../text/TextMessage';
 import SceneTransition from './SceneTransition';
+
+import Battle from '../../battle/Battle';
+import VisualNovel from '../../visual_novel/VisualNovel';
 
 export default class OverworldEvent extends React.Component {
     // eslint-disable-next-line react/prop-types
@@ -76,9 +81,25 @@ export default class OverworldEvent extends React.Component {
 
             sceneTransition.fadeOut();
         });
+    }
 
-        // this.map.overworld.startMap(window.OverworldMaps[this.event.map]);
-        // resolve();
+    battle(resolve) {
+        const battle = new Battle({
+            onComplete: () => {
+                resolve();
+            }
+        })
+        battle.init(document.querySelector(".game-container"));
+
+    }
+
+    visualNovel(resolve) {
+        const visualNovel = new VisualNovel({
+            onComplete: () => {
+                resolve();
+            }
+        })
+        visualNovel.init(document.querySelector(".game-container"));
     }
 
 

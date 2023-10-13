@@ -1,0 +1,49 @@
+.player-animation {
+	position: absolute;
+	top: 200px;
+	left: 64px;
+	width: 200px;
+	height: 100%;
+	z-index: 9;
+	pointer-events: none;
+}
+.enemy-animation {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 200px;
+	height: 100%;
+	z-index: 2;
+	pointer-events: none;
+}
+
+.battle-movement-right {
+	animation: battle-movement-right 0.6s;
+}
+@keyframes battle-movement-right {
+	0% {
+		transform: translateX(0);
+	}
+	25% {
+		transform: translateX(15px);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+
+.battle-movement-left {
+	animation: battle-movement-left 0.6s;
+}
+@keyframes battle-movement-left {
+	0% {
+		transform: translateX(0);
+	}
+	25% {
+		transform: translateX(-15px);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+

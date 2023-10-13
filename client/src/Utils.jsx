@@ -45,3 +45,11 @@ export const emitEvent = (name, detail) => {
     });
     document.dispatchEvent(event);
 };
+
+export const wait = (ms) => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, ms);
+    });
+};
