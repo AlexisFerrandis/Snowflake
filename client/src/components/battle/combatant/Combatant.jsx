@@ -1,7 +1,9 @@
 import React from 'react';
 import "./combatant.scss"
 
-import supportImg from "../../../assets/graphic/battle/battlebacks/field_base.png"
+import { randomFromArray } from '../../../Utils';
+
+import supportImg from "../../../assets/graphic/battle/battlebacks/field_snow.png"
 
 export default class Combatant extends React.Component {
     constructor(config, battle) {
@@ -109,6 +111,62 @@ export default class Combatant extends React.Component {
 
         // update lvl
         this.hudElement.querySelector(".combatant-lvl").innerText = this.level;
+
+        // update status
+        const statusElement = this.hudElement.querySelector(".combatant_status");
+        if (this.status) {
+            statusElement.innerText = this.status.type;
+            statusElement.setAttribute("data-status", this.status.type);
+            statusElement.style.display = "block";
+        } else {
+            statusElement.innerText = "";
+            statusElement.style.display = "none";
+        }
+    }
+
+    getReplacedEvents(originalEvents) {
+        if (this.status?.type === "par" && randomFromArray([0, 0, 1])) {
+            return [
+                {
+                    type: "textMessage",
+                    text: `${this.name} est paralisé et ne peut pas attaquer !`,
+                },
+            ];
+        }
+        return originalEvents;
+    }
+
+    getPostsEvents() {
+        if (this.status?.type === "hea") {
+            return [
+                {
+                    type: "textMessage",
+                    text: "{CASTER} rècupère quelques points de vie !",
+                },
+                {
+                    type: "stateChange",
+                    recover: 5,
+                    onCaster: true,
+                },
+            ];
+        }
+        return [];
+    }
+
+    decrementStatus() {
+        if (this.status?.expiresIn > 0) {
+            this.status.expiresIn--;
+            if (this.status?.expiresIn === 0) {
+                // const statusType = this.status.type;
+                const statusVerb = this.status.verb;
+                this.update({ status: null });
+                return {
+                    type: "textMessage",
+                    text: `${this.name} n'est plus ${statusVerb}.`,
+                };
+            }
+        }
+        return null;
     }
 
     init(container) {

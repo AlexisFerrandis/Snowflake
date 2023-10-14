@@ -184,7 +184,7 @@ export default class SubmissionMenu extends React.Component {
         this.keyboardMenu.setOptions(this.getPages().root)
     }
 
-    init(container) {
+    init() {
         this.decide();
 
         // if (this.caster.isPlayerControlled) {

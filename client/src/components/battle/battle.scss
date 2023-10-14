@@ -20,12 +20,15 @@
 	.battle-enemy {
 		position: absolute;
 		width: 240px;
-		height: 240px;
-        background-color: red;
+		height: 360px;
+		img {
+			height: 100%;
+			object-fit: contain;
+		}
 	}
     .battle-player {
-		left: 0;
-		bottom: 120px;
+		left: 32px;
+		bottom: 0;
     }
     .battle-enemy {
 		right: 0;

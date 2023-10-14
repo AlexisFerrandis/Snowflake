@@ -2,12 +2,14 @@ import React from 'react';
 
 import "./battle.scss"
 
-import battleBackground from "../../assets/graphic/backgrounds/snow_bg.gif"
 import Combatant from './combatant/Combatant';
 
 import { companions } from "../content/Companions"
 import TurnCycle from './TurnCycle';
 import BattleEvent from './events/BattleEvent';
+
+import battleBackground from "../../assets/graphic/backgrounds/snow_bg.gif"
+import playerImg from "../../assets/graphic/battle/characters/player.png"
 
 export default class Battle extends React.Component {
     // eslint-disable-next-line react/prop-types
@@ -19,7 +21,7 @@ export default class Battle extends React.Component {
 
         this.combatants = {
             "player1": new Combatant({
-                ...companions.rat,
+                ...companions.chevrette,
                 team: "player",
                 hp: 34,
                 maxHp: 50,
@@ -31,7 +33,7 @@ export default class Battle extends React.Component {
             "enemy1": new Combatant({
                 ...companions.rat,
                 team: "enemy",
-                hp: 50,
+                hp: 40,
                 maxHp: 50,
                 xp: 0,
                 maxXp: 100,
@@ -68,14 +70,10 @@ export default class Battle extends React.Component {
             <div class="player-animation"></div>
 
             <div class="battle-player">
-                PlayerImg
+                <img src=${playerImg} class="player-img" alt="player" />
             </div>
 
             <div class="enemy-animation"></div>
-
-            <div class="battle-enemy">
-                EnemyImg
-            </div>
 
             <div class="text-container">
             </div>

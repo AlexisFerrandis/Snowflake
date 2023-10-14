@@ -48,22 +48,48 @@ export default class BattleEvent extends React.Component {
     }
 
     async stateChange(resolve) {
-        const { caster, target, damage } = this.event; //, recover, statusHandler, statsHandler, move
+        const { caster, target, damage, recover, status, move } = this.event; //, statsHandler, move
         let who = this.event.onCaster ? caster : target;
         let casterStat = this.event.onCaster ? target : caster;
+        if (move.targetType === "friendly") {
+            who = caster;
+        }
 
         // damage
         if (damage) {
-            let initialDamage = Math.floor((damage * casterStat.level / 20) + (casterStat.BaseStats[1] / 10) - (who.BaseStats[2] / 10) - 2);
+            let initialDamage = Math.floor((damage * casterStat.level / 20) + (casterStat.baseStats[1] / 10) - (who.baseStats[2] / 10) - 2);
             target.update({
                 hp: target.hp - initialDamage,
             });
+            target.companionElement.classList.add('battle-damage-blink');
+            await wait(800)
+            target.companionElement.classList.remove('battle-damage-blink');
         }
 
+        // recover
+        if (recover) {
+            let newHp = who.hp + recover;
+            if (newHp > who.maxHp) {
+                newHp = who.maxHp
+            }
+            who.update({
+                hp: newHp
+            })
+        }
 
-        target.companionElement.classList.add('battle-damage-blink');
-        await wait(800)
-        target.companionElement.classList.remove('battle-damage-blink');
+        // status
+        if (status) {
+            // if ( randomFromArray(statusHandler.probability)) {
+            who.update({
+                status: { ...status }
+            })
+            // } 
+        }
+        if (status === null) {
+            who.update({
+                status: null,
+            });
+        }
 
         resolve();
     }
