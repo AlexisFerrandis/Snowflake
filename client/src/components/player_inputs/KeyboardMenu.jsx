@@ -13,20 +13,14 @@ export default class KeyboardMenu extends React.Component {
     }
     setOptions(options) {
 
-        // function importAll(r) {
-        //     let images = {};
-        //     r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); return true});
-        //     return images;
-        // }
-        // const itemsImg = importAll(require.context('./../../assets/graphics/items', false, /\.(png|jpe?g|svg)$/));
-        // ${option.src ? `<img src=${itemsImg[`${option.src}.png`]} class="item-ico" alt=${option.label} />` :  ""}
-
         this.options = options;
         this.element.innerHTML = this.options.map((option, index) => {
             const disableAttribute = option.disabled ? "disabled" : "";
             return (`
                 <div class="keyboard-menu-option" >
-					<div>IMG</div>
+					<div>
+                        ${option.src ? `<img src=${option.src} class="item-ico" alt=${option.label} />` : ""}
+                    </div>
                     <button ${disableAttribute} data-button="${index}" data-description="${option.description}">
                         ${option.label}
                     </button>
@@ -47,7 +41,7 @@ export default class KeyboardMenu extends React.Component {
             });
             button.addEventListener("focus", () => {
                 this.prevFocus = button;
-                this.descriptionElementText.innerHTML = button.dataset.description;
+                this.descriptionElementText.innerText = button.dataset.description;
             });
         });
 
@@ -77,13 +71,11 @@ export default class KeyboardMenu extends React.Component {
 
         this.up.unbind();
         this.down.unbind();
-        this.left.unbind();
-        this.right.unbind();
     }
 
     init(container) {
         this.createElement();
-        // (this.descriptionContainer || container).appendChild(this.descriptionElement);
+        (this.descriptionContainer || container).appendChild(this.descriptionElement);
 
         container.appendChild(this.descriptionElement)
         container.appendChild(this.element)

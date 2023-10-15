@@ -37,6 +37,11 @@ export default class TurnCycle extends React.Component {
             await this.onNewEvent(event);
         }
 
+        if (submission.instanceId) {
+            // remove item from battle state 
+            this.battle.items = this.battle.items.filter(i => i.instanceId !== submission.instanceId)
+        }
+
         // check for post events
         const postEvents = caster.getPostsEvents();
         for (let i = 0; i < postEvents.length; i++) {
@@ -63,10 +68,10 @@ export default class TurnCycle extends React.Component {
 
     async init() {
 
-        await this.onNewEvent({
-            type: "textMessage",
-            text: `La rencontre commence !`
-        })
+        // await this.onNewEvent({
+        //     type: "textMessage",
+        //     text: `La rencontre commence !`
+        // })
 
         // start first turn
         this.turn();

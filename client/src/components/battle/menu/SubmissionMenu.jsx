@@ -3,11 +3,12 @@ import React from 'react';
 import "./submission-menu.scss"
 
 import { moves } from "../../content/Moves"
-// import { items } from "../../content/Items"
+import { items } from "../../content/Items"
+
 import KeyboardMenu from '../../player_inputs/KeyboardMenu';
 
 export default class SubmissionMenu extends React.Component {
-    constructor({ caster, enemy, onComplete, replacements }) { // items,
+    constructor({ caster, enemy, onComplete, replacements, items, }) {
         super(onComplete);
 
         this.caster = caster;
@@ -15,23 +16,23 @@ export default class SubmissionMenu extends React.Component {
         this.replacements = replacements;
         this.onComplete = onComplete;
 
-        // let quantityMap = {};
-        // items.forEach(item => {
-        //     if (item.team === caster.team) {
+        let quantityMap = {};
+        items.forEach(item => {
+            if (item.team === caster.team) {
 
-        //         let existing = quantityMap[item.itemId];
-        //         if (existing) {
-        //             existing.quantity += 1;
-        //         } else {
-        //             quantityMap[item.itemId] = {
-        //                 itemId: item.itemId,
-        //                 quantity: 1,
-        //                 instanceId: item.instanceId
-        //             }
-        //         }
-        //     }
-        // })
-        // this.item = Object.values(quantityMap);
+                let existing = quantityMap[item.itemId];
+                if (existing) {
+                    existing.quantity += 1;
+                } else {
+                    quantityMap[item.itemId] = {
+                        itemId: item.itemId,
+                        quantity: 1,
+                        instanceId: item.instanceId
+                    }
+                }
+            }
+        })
+        this.item = Object.values(quantityMap);
     }
 
     getPages() {
@@ -56,42 +57,42 @@ export default class SubmissionMenu extends React.Component {
                     },
                 },
                 {
-                    label: "ACTIONS",
+                    label: "ACTION",
                     description: `Que voulez vous faire ?`,
                     handler: () => {
-                        this.keyboardMenu.setOptions(this.getPages().actions);
+                        // this.keyboardMenu.setOptions(this.getPages().actions);
                     },
                 },
-                // {
-                //     label: "SAC",
-                //     description: "Utiliser un objet.",
-                //     handler: () => {
-                //         const itemMenu = document.querySelector(".keyboard-menu");
-                //         itemMenu.classList.add("item-menu")
-                //         this.keyboardMenu.setOptions(this.getPages().items);
-                //     },
-                // },
                 {
-                    label: "COMPAGNON",
+                    label: "SAC",
+                    description: "Utiliser un objet.",
+                    handler: () => {
+                        const itemMenu = document.querySelector(".keyboard-menu");
+                        itemMenu.classList.add("item-menu")
+                        this.keyboardMenu.setOptions(this.getPages().items);
+                    },
+                },
+                {
+                    label: "COMPAGNONS",
                     description: "Changer de compagnon.",
                     handler: () => {
-                        this.keyboardMenu.setOptions(this.getPages().replacements);
+                        // this.keyboardMenu.setOptions(this.getPages().replacements);
                     },
                 },
                 {
                     label: "FUITE",
                     description: "Essayer de quitter le combat.",
                     handler: () => {
-                        this.runSubmit(this.enemy.id);
+                        // this.runSubmit(this.enemy.id);
                     },
                 },
             ],
             attacks: [
-                ...this.caster.Moves.map((key) => {
+                ...this.caster.moves.map((key) => {
                     const move = moves[key];
                     return {
                         label: move.name,
-                        description: move.Description,
+                        description: move.description,
                         handler: () => {
                             this.menuSubmit(move);
                         },
@@ -100,11 +101,11 @@ export default class SubmissionMenu extends React.Component {
                 backOption,
             ],
             actions: [
-                ...this.caster.Moves.map((key) => {
+                ...this.caster.moves.map((key) => {
                     const move = moves[key];
                     return {
                         label: move.name,
-                        description: move.Description,
+                        description: move.description,
                         handler: () => {
                             this.menuSubmit(move);
                         },
@@ -112,38 +113,38 @@ export default class SubmissionMenu extends React.Component {
                 }),
                 backOption,
             ],
-            // items: [
-            //     ...this.item.map((i) => {
-            //         const item = items[i.itemId];
+            items: [
+                ...this.item.map((i) => {
+                    const item = items[i.itemId];
 
-            //         return {
-            //             // img src : 
-            //             label: item.name,
-            //             description: item.Description,
-            //             right: () => {
-            //                 return "x" + i.quantity;
-            //             },
-            //             handler: () => {
-            //                 this.menuSubmit(item, i.instanceId);
-            //                 const itemMenu = document.querySelector(".keyboard-menu");
-            //                 if (itemMenu) itemMenu.classList.remove("item-menu")
-            //             },
-            //         };
-            //     }),
-            //     backOption,
-            // ],
-            replacements: [
-                ...this.replacements.map((replacement) => {
                     return {
-                        label: replacement.name,
-                        description: replacement.description,
+                        src: item.src,
+                        label: item.name,
+                        description: item.description,
+                        right: () => {
+                            return "x" + i.quantity;
+                        },
                         handler: () => {
-                            this.menuSubmitReplacement(replacement);
+                            this.menuSubmit(item, i.instanceId);
+                            const itemMenu = document.querySelector(".keyboard-menu");
+                            if (itemMenu) itemMenu.classList.remove("item-menu")
                         },
                     };
                 }),
                 backOption,
             ],
+            // replacements: [
+            //     ...this.replacements.map((replacement) => {
+            //         return {
+            //             label: replacement.name,
+            //             description: replacement.description,
+            //             handler: () => {
+            //                 this.menuSubmitReplacement(replacement);
+            //             },
+            //         };
+            //     }),
+            //     backOption,
+            // ],
         };
     }
 
@@ -158,7 +159,7 @@ export default class SubmissionMenu extends React.Component {
         this.keyboardMenu?.end();
         this.onComplete({
             move,
-            target: move.TargetType === "friendly" ? this.caster : this.enemy,
+            target: move.targetType === "friendly" ? this.caster : this.enemy,
             instanceId,
         });
     }
@@ -170,12 +171,8 @@ export default class SubmissionMenu extends React.Component {
 
     // enemy choice 
     decide() {
-        // let enemyChoice = Math.floor((Math.random() * this.caster.moves.length))
-        // this.menuSubmit(moves[this.caster.moves[enemyChoice]]);
-        this.onComplete({
-            move: moves[this.caster.moves[0]],
-            target: this.enemy,
-        })
+        let enemyChoice = Math.floor((Math.random() * this.caster.moves.length))
+        this.menuSubmit(moves[this.caster.moves[enemyChoice]]);
     }
 
     showMenu(container) {
@@ -184,13 +181,11 @@ export default class SubmissionMenu extends React.Component {
         this.keyboardMenu.setOptions(this.getPages().root)
     }
 
-    init() {
-        this.decide();
-
-        // if (this.caster.isPlayerControlled) {
-        //     this.showMenu(container)
-        // } else {
-        //     this.decide();
-        // }
+    init(container) {
+        if (this.caster.isPlayerControlled) {
+            this.showMenu(container)
+        } else {
+            this.decide();
+        }
     }
 }

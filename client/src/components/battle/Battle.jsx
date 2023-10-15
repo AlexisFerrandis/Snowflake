@@ -29,6 +29,7 @@ export default class Battle extends React.Component {
                 maxXp: 100,
                 level: 5,
                 status: null,
+                isPlayerControlled: true,
             }, this),
             "enemy1": new Combatant({
                 ...companions.rat,
@@ -56,6 +57,12 @@ export default class Battle extends React.Component {
             player: "player1",
             enemy: "enemy1",
         };
+
+        this.items = [
+            { itemId: "POTION", instanceId: "p1", team: "player" },
+            { itemId: "FULLHEAL", instanceId: "p2", team: "player" },
+            { itemId: "POTION", instanceId: "p3", team: "enemy" },
+        ];
     }
 
     createElement() {

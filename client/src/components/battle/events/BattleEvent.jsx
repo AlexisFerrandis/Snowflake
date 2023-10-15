@@ -36,7 +36,7 @@ export default class BattleEvent extends React.Component {
         const menu = new SubmissionMenu({
             caster: this.event.caster,
             enemy: this.event.enemy,
-            // items: this.battle.items,
+            items: this.battle.items,
             // replacements: Object.values(this.battle.combatants).filter(c => {
             //     return c.id !== caster.id && c.team === caster.team && c.hp > 0
             // }),
@@ -48,12 +48,9 @@ export default class BattleEvent extends React.Component {
     }
 
     async stateChange(resolve) {
-        const { caster, target, damage, recover, status, move } = this.event; //, statsHandler, move
+        const { caster, target, damage, recover, status } = this.event; //, statsHandler, move
         let who = this.event.onCaster ? caster : target;
         let casterStat = this.event.onCaster ? target : caster;
-        if (move.targetType === "friendly") {
-            who = caster;
-        }
 
         // damage
         if (damage) {
@@ -80,17 +77,12 @@ export default class BattleEvent extends React.Component {
         // status
         if (status) {
             // if ( randomFromArray(statusHandler.probability)) {
-            who.update({
-                status: { ...status }
-            })
+            who.update({ status: { ...status } })
             // } 
         }
         if (status === null) {
-            who.update({
-                status: null,
-            });
+            who.update({ status: null, });
         }
-
         resolve();
     }
 

@@ -1,0 +1,167 @@
+.keyboard-menu {
+	position: absolute;
+	justify-content: left;
+	flex-wrap: wrap;
+	width: 400px;
+	z-index: 1;
+}
+.keyboard-menu::before {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 54px;
+	border: 3px solid #7c78a4;
+	outline: 2px solid #2a3214;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+	top: 0;
+	left: 0;
+	background: white;
+	z-index: -1;
+}
+.keyboard-menu button {
+	position: relative;
+	width: 92px;
+	text-align: left;
+	margin: 8px 0 0 5px;
+	-webkit-appearance: none;
+	background: none;
+	outline: none;
+	font-size: 10px;
+	color: rgb(44, 44, 44);
+	text-shadow: -1px 1px 1px rgba(49, 49, 49, 0.3);
+	cursor: pointer;
+}
+.keyboard-menu button:focus::before {
+	content:"\2BC8";
+	position: absolute;
+	top: -6px;
+	left: -16px;
+	font-size: 16px;
+	color: rgb(44, 44, 44);
+	animation: arrow-left-and-right infinite 3s;
+}
+
+.keyboard-menu .option {
+	position: relative;
+}
+.keyboard-menu .option .right {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+.description-box {
+	position: absolute;
+	bottom: 2px;
+	left: 2px;
+	width: 59%;
+	height: 60px;
+	color: rgb(216, 216, 216);
+	border: 2px solid #c8a848;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+	z-index: 1;
+}
+.description-box-text {
+	height: 100%;
+	border-radius: 1px;
+	padding: 4px 6px 0 6px;
+}
+.description-box p {
+	text-shadow: -1px 2px 2px rgba(49, 49, 49, 1);
+	font-size: 10px;
+	line-height: 16px;
+	margin: 0;
+}
+
+.keyboard-menu button[data-description="Retour"] {
+	position: absolute;
+	bottom: 4px;
+	right: 4px;
+	text-align: right;
+	transform: scaleY(1.4);
+}
+.keyboard-menu button[data-description="Retour"]:focus::before {
+	display: none;
+}
+
+/* battle specific */
+.battle .keyboard-menu {
+	right: 3px;
+	bottom: 1px;
+	display: flex;
+    justify-content: center;
+    height: 58px;
+	width: 40%;
+    padding: 5px 0 5px 0px;
+	.keyboard-menu-option {
+		width: 45%;
+	}
+}
+
+.battle .keyboard-menu span {
+	font-size: 8px;
+	color: rgb(44, 44, 44);
+	text-shadow: -1px 1px 1px rgba(49, 49, 49, 0.3);
+}
+
+.battle .keyboard-menu.item-menu{
+	background-color: red;
+	top: 50px;
+	width: 200px;
+	justify-content: inherit;
+	&:before {
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 500px;
+		border: 3px solid #7c78a4;
+		outline: 2px solid #2a3214;
+		border-bottom-right-radius: 3px;
+		border-top-right-radius: 3px;
+		bottom: 20px;
+		left: 0;
+		background: white;
+		z-index: -1;
+	}
+	.keyboard-menu-option {
+		position: relative;
+		margin: 10px 0 8px 22px;
+		display: flex;
+		width: 70%;
+		.item-ico {
+			position: absolute;
+			left: -24px;
+			top: 4px;
+			width: 16px;
+			object-fit: cover;
+		}
+		button {
+			width: 150px;
+		}
+		[data-description="Retour"] {
+            position: absolute;
+            left: 0;
+            top: 0px;
+            background-color: white;
+        }
+		.right {
+			margin-top: 7px;
+			font-size: 0.6em;
+		}
+	}
+}
+
+@keyframes arrow-left-and-right {
+	0% {
+		transform: translateX(0);
+	}
+	50% {
+		transform: translateX(1px);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
