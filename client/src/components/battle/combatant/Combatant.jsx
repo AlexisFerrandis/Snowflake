@@ -1,4 +1,5 @@
 import React from 'react';
+
 import "./combatant.scss"
 
 import { randomFromArray } from '../../../Utils';
@@ -13,7 +14,7 @@ export default class Combatant extends React.Component {
             this[key] = config[key]
         })
 
-        // this.hp = typeof this.hp === "undefined" ? this.maxHp : this.hp;
+        this.hp = typeof this.hp === "undefined" ? this.maxHp : this.hp;
         this.battle = battle;
     }
 
@@ -28,7 +29,7 @@ export default class Combatant extends React.Component {
         return this.battle?.activeCombatants[this.team] === this.id;
     }
     get givesXp() {
-        return this.level * this.BaseEXP;
+        return this.level * this.baseEXP;
     }
 
     createElement() {
@@ -172,7 +173,8 @@ export default class Combatant extends React.Component {
     init(container) {
         this.createElement();
         container.appendChild(this.hudElement);
-        container.appendChild(this.companionElement);
+        container.appendChild(this.companionContainer);
+        this.companionContainer.appendChild(this.companionElement);
 
         this.update();
     }

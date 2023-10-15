@@ -1,10 +1,13 @@
 import React from 'react';
 
+import PlayerState from '../state/PlayerState';
+window.playerState = new PlayerState();
+
 import OverworldMap from './map/OverworldMap';
 import DirectionInputs from '../player_inputs/DirectionInputs';
+import KeyPressListener from '../player_inputs/KeyPressListener';
 
 import { FPS_RATIO } from '../constants';
-import KeyPressListener from '../player_inputs/KeyPressListener';
 
 export default class Overworld extends React.Component {
     constructor(config) {
@@ -98,9 +101,9 @@ export default class Overworld extends React.Component {
 
         this.startGameLoop();
 
-        this.map.startCutScene([
-            { type: "battle" }
-            // { type: "changeMap", map: "Demo" },
-        ])
+        // this.map.startCutScene([
+        //     { type: "battle", enemyId: "npc_01" }
+        // { type: "changeMap", map: "Demo" },
+        // ])
     }
 }

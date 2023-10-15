@@ -73,10 +73,10 @@ export default class SubmissionMenu extends React.Component {
                     },
                 },
                 {
-                    label: "COMPAGNONS",
-                    description: "Changer de compagnon.",
+                    label: "ÉCHANGER",
+                    description: "Changer de combattant.",
                     handler: () => {
-                        // this.keyboardMenu.setOptions(this.getPages().replacements);
+                        this.keyboardMenu.setOptions(this.getPages().replacements);
                     },
                 },
                 {
@@ -133,25 +133,25 @@ export default class SubmissionMenu extends React.Component {
                 }),
                 backOption,
             ],
-            // replacements: [
-            //     ...this.replacements.map((replacement) => {
-            //         return {
-            //             label: replacement.name,
-            //             description: replacement.description,
-            //             handler: () => {
-            //                 this.menuSubmitReplacement(replacement);
-            //             },
-            //         };
-            //     }),
-            //     backOption,
-            // ],
+            replacements: [
+                ...this.replacements.map((replacement) => {
+                    return {
+                        label: replacement.name,
+                        description: replacement.description,
+                        handler: () => {
+                            this.menuSubmitReplacement(replacement);
+                        },
+                    };
+                }),
+                backOption,
+            ],
         };
     }
 
     menuSubmitReplacement(replacement) {
         this.keyboardMenu?.end();
         this.onComplete({
-            replacement
+            replacement,
         })
     }
 

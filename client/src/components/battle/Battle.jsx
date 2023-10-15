@@ -1,15 +1,18 @@
 import React from 'react';
+// import PlayerState from '../state/PlayerState';
 
 import "./battle.scss"
 
 import Combatant from './combatant/Combatant';
-
-import { companions } from "../content/Companions"
 import TurnCycle from './TurnCycle';
 import BattleEvent from './events/BattleEvent';
+import Team from './team/Team';
+
+import { companions } from "../content/Companions"
 
 import battleBackground from "../../assets/graphic/backgrounds/snow_bg.gif"
 import playerImg from "../../assets/graphic/battle/characters/player.png"
+import { emitEvent } from '../../Utils';
 
 export default class Battle extends React.Component {
     // eslint-disable-next-line react/prop-types
@@ -20,49 +23,42 @@ export default class Battle extends React.Component {
         this.onComplete = onComplete;
 
         this.combatants = {
-            "player1": new Combatant({
-                ...companions.chevrette,
-                team: "player",
-                hp: 34,
-                maxHp: 50,
-                xp: 30,
-                maxXp: 100,
-                level: 5,
-                status: null,
-                isPlayerControlled: true,
-            }, this),
-            "enemy1": new Combatant({
-                ...companions.rat,
-                team: "enemy",
-                hp: 40,
-                maxHp: 50,
-                xp: 0,
-                maxXp: 100,
-                level: 5,
-                status: null,
-            }, this),
-            "enemy2": new Combatant({
-                ...companions.rat,
-                team: "enemy",
-                hp: 50,
-                maxHp: 50,
-                xp: 0,
-                maxXp: 100,
-                level: 5,
-                status: null,
-            }, this),
+
         };
 
         this.activeCombatants = {
-            player: "player1",
-            enemy: "enemy1",
+            player: null,
+            enemy: null,
         };
 
-        this.items = [
-            { itemId: "POTION", instanceId: "p1", team: "player" },
-            { itemId: "FULLHEAL", instanceId: "p2", team: "player" },
-            { itemId: "POTION", instanceId: "p3", team: "enemy" },
-        ];
+        // dynamically add team
+        window.playerState.lineup.forEach(id => {
+            this.addCombatant(id, "player", window.playerState.companions[id])
+        })
+        Object.keys(this.enemy.companions).forEach((key) => {
+            this.addCombatant("e_" + key, "enemy", this.enemy.companions[key]);
+        });
+
+        // add player items
+        this.items = [];
+        window.playerState.items.forEach((item) => {
+            this.items.push({
+                ...item,
+                team: "player",
+            });
+        });
+        this.usedInstanceIds = {};
+    }
+
+    addCombatant(id, team, config) {
+        this.combatants[id] = new Combatant({
+            ...companions[config.companionId],
+            ...config,
+            team,
+            isPlayerControlled: team === "player",
+        }, this);
+        // populate 1st combatant
+        this.activeCombatants[team] = this.activeCombatants[id] || id;
     }
 
     createElement() {
@@ -75,34 +71,45 @@ export default class Battle extends React.Component {
             </div>
 
             <div class="player-animation"></div>
-
             <div class="battle-player">
                 <img src=${playerImg} class="player-img" alt="player" />
             </div>
 
             <div class="enemy-animation"></div>
-
-            <div class="text-container">
-            </div>
         `;
+        /*
+            ${this.enemy.name !== "Wild" ?
+                (`
+                    <div class="battle-enemy">
+                        <img src=${this.enemy.src} alt=${this.enemy.name} />
+                    </div>
+                `) : (``)
+            }
+            <div class="text-container"></div>
+        */
     }
 
     init(container) {
         this.createElement();
         container.appendChild(this.element);
 
+        this.playerTeam = new Team("player", "Player")
+        this.enemyTeam = new Team("enemy", "Enemy")
         Object.keys(this.combatants).forEach(key => {
             let combatant = this.combatants[key];
             combatant.id = key;
             combatant.init(this.element)
 
             // add to correct team
-            // if (combatant.team === "player") {
-            //     this.playerTeam.combatants.push(combatant);
-            // } else if (combatant.team === "enemy") {
-            //     this.enemyTeam.combatants.push(combatant);
-            // }
+            if (combatant.team === "player") {
+                this.playerTeam.combatants.push(combatant);
+            } else if (combatant.team === "enemy") {
+                this.enemyTeam.combatants.push(combatant);
+            }
         });
+        this.playerTeam.init(this.element);
+        this.enemyTeam.init(this.element);
+
 
         this.turnCycle = new TurnCycle({
             battle: this,
@@ -111,6 +118,36 @@ export default class Battle extends React.Component {
                     const battleEvent = new BattleEvent(e, this);
                     battleEvent.init(resolve);
                 })
+            },
+            onWinner: winner => {
+                if (winner === "player") {
+                    const playerState = window.playerState;
+                    Object.keys(playerState.companions).forEach(id => {
+                        const playerStateCompanions = playerState.companions[id];
+                        const combatant = this.combatants[id];
+                        if (combatant) {
+                            playerStateCompanions.hp = combatant.hp;
+                            playerStateCompanions.xp = combatant.xp;
+                            playerStateCompanions.maxXp = combatant.maxXp;
+                            playerStateCompanions.maxHp = combatant.maxHp;
+                            playerStateCompanions.level = combatant.level;
+                        }
+                    });
+                    // get rid of player used items
+                    playerState.items = playerState.items.filter((item) => {
+                        return !this.usedInstanceIds[item.instanceId];
+                    });
+                    // send signal to update
+                    emitEvent("PlayerStateUpdated");
+                }
+                else if (winner === "runAway") {
+                    winner = "player"
+                }
+
+
+                // animate ending battle here
+                this.element.remove();
+                this.onComplete(winner === "player");
             }
         })
         this.turnCycle.init();

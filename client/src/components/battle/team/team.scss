@@ -1,0 +1,38 @@
+.team {
+	// display: flex;
+    display: none;
+	position: absolute;
+	top: 6px;
+	gap: 4px;
+}
+.combatant-icon {
+	width: 16px;
+	height: 16px;
+}
+.team[data-team="player"] {
+	left: 6px;
+}
+.team[data-team="enemy"] {
+	right: 6px;
+}
+
+// start stateful paths as display:none 
+.team .dead-combatant {
+	display: none;
+}
+.team .active-combatant-indicator {
+	display: none;
+}
+
+// display them as opted in by data-attributes 
+.team [data-dead="true"]  {
+	// img {
+        filter: grayscale(1) brightness(0.8);
+    // }
+}
+.team [data-active="true"] .active-combatant-indicator {
+        position: absolute;
+        display: block;
+        font-size: 9px; 
+		margin-left: 3px;
+}

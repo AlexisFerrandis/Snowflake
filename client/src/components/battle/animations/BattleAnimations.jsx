@@ -1,7 +1,7 @@
-import { wait } from "../../../Utils";
-
 import "./battle-animations.scss"
 import "./moves-animations.scss"
+
+import { wait } from "../../../Utils";
 
 export const battleAnimations = {
 

@@ -148,6 +148,12 @@ window.OverworldMaps = {
                     { type: "stand", direction: "left", time: 2100 },
                     { type: "stand", direction: "right", time: 2300 },
                 ],
+                talking: [{
+                    events: [
+                        { type: "textMessage", who: "Syndra", text: "J'aime beaucoup ce village.", facePlayer: "npc01" },
+                        { type: "battle", enemyId: "npc_01" },
+                    ]
+                }]
             }),
             npc02: new Person({
                 x: withGrid(12),
@@ -164,14 +170,12 @@ window.OverworldMaps = {
                     { type: "stand", direction: "left", time: 3000 },
                     { type: "walk", direction: "up", time: 2700 },
                 ],
-                talking: [
-                    {
-                        events: [
-                            { type: "textMessage", who: "Syndra", text: "J'aime beaucoup ce village.", facePlayer: "npc02" },
-                            { type: "textMessage", who: "Syndra", text: "C'est si paisible.", facePlayer: "npc02" },
-                        ]
-                    }
-                ]
+                talking: [{
+                    events: [
+                        { type: "textMessage", who: "Syndra", text: "J'aime beaucoup ce village.", facePlayer: "npc02" },
+                        { type: "textMessage", who: "Syndra", text: "C'est si paisible.", facePlayer: "npc02" },
+                    ]
+                }]
             }),
         },
         walls: {

@@ -7,6 +7,7 @@ import SceneTransition from './SceneTransition';
 
 import Battle from '../../battle/Battle';
 import VisualNovel from '../../visual_novel/VisualNovel';
+import { enemies } from '../../content/Enemies';
 
 export default class OverworldEvent extends React.Component {
     // eslint-disable-next-line react/prop-types
@@ -84,13 +85,18 @@ export default class OverworldEvent extends React.Component {
     }
 
     battle(resolve) {
-        const battle = new Battle({
-            onComplete: () => {
-                resolve();
-            }
-        })
-        battle.init(document.querySelector(".game-container"));
+        // const battleIntroduction = new BattleIntroduction();
+        // battleIntroduction.init(document.querySelector(".game-container"));
 
+        setTimeout(() => {
+            const battle = new Battle({
+                enemy: enemies[this.event.enemyId],
+                onComplete: () => {
+                    resolve();
+                }
+            })
+            battle.init(document.querySelector(".game-container"))
+        }, 0) // battle introduction time
     }
 
     visualNovel(resolve) {
